@@ -1,132 +1,109 @@
 import React from 'react';
-import { 
-  Document, 
-  Page, 
-  Text, 
-  View, 
-  Image, 
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  Image,
   StyleSheet,
-  Font 
+  Font
 } from '@react-pdf/renderer';
-import logo from '../Images/logo.jpg';
-import watermark from './watermark.png';
-import signature from './signature.png';
 
-// Register fonts
 Font.register({
   family: 'Roboto',
-  src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf'
+  src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf'
 });
 
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
-    position: 'relative',
-    fontFamily: 'Roboto',
+    padding: 20,
+    fontFamily: 'Roboto'
   },
-  watermark: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    opacity: 0.1,
-    zIndex: -1,
+
+  card: {
+    width: 350,
+    height: 220,
+    border: '2px solid #000',
+    borderRadius: 8,
+    padding: 10
   },
+
   header: {
+    backgroundColor: '#1a237e',
+    padding: 6,
+    textAlign: 'center'
+  },
+
+  headerText: {
+    color: '#fff',
+    fontSize: 16,
+    letterSpacing: 1
+  },
+
+  body: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 40,
-    borderBottom: '2px solid #2c3e50',
-    paddingBottom: 20,
+    marginTop: 10
   },
-  logo: {
-    width: 150,
-    height: 60,
+
+  photo: {
+    width: 90,
+    height: 110,
+    border: '1px solid #000'
   },
-  badge: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    border: '3px solid gold',
+
+  info: {
+    marginLeft: 10,
+    fontSize: 10
   },
-  mainContent: {
-    marginVertical: 40,
+
+  label: {
+    fontWeight: 'bold'
+  },
+
+  footer: {
+    position: 'absolute',
+    bottom: 8,
+    left: 10,
+    right: 10,
+    fontSize: 8,
     textAlign: 'center',
-  },
-  title: {
-    fontSize: 32,
-    color: '#2c3e50',
-    marginBottom: 30,
-  },
-  signatureSection: {
-    position: 'absolute',
-    bottom: 100,
-    right: 50,
-    alignItems: 'flex-end',
-  },
-  signature: {
-    width: 180,
-    height: 70,
-  },
-  stamp: {
-    position: 'absolute',
-    bottom: 150,
-    left: 50,
-    width: 120,
-    height: 120,
-    opacity: 0.8,
+    color: '#555'
   }
 });
 
-const Certificate = ({ recipient, course, date }) => (
+const PressCard = ({ data }) => (
   <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Background Watermark */}
-      <Image src={watermark} style={styles.watermark} />
-      
-      {/* Header with Logo */}
-      <View style={styles.header}>
-        <Image src={logo} style={styles.logo} />
-        <Image src="/achievement-badge.png" style={styles.badge} />
-      </View>
-      
-      {/* Main Content */}
-      <View style={styles.mainContent}>
-        <Text style={styles.title}>Certificate of Excellence</Text>
-        <Text style={{ fontSize: 18, marginBottom: 20 }}>
-          This certifies that
+    <Page size={{ width: 400, height: 250 }} style={styles.page}>
+      <View style={styles.card}>
+        
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.headerText}>PRESS ID CARD</Text>
+        </View>
+
+        {/* Body */}
+        <View style={styles.body}>
+          <Image src={data.photo} style={styles.photo} />
+
+          <View style={styles.info}>
+            <Text><Text style={styles.label}>Name:</Text> {data.name}</Text>
+            <Text><Text style={styles.label}>Father:</Text> {data.fatherName}</Text>
+            <Text><Text style={styles.label}>Mobile:</Text> {data.mobile}</Text>
+            <Text><Text style={styles.label}>Blood Group:</Text> {data.bloodGroup}</Text>
+            <Text><Text style={styles.label}>Address:</Text> {data.address}</Text>
+            <Text><Text style={styles.label}>District:</Text> {data.district}</Text>
+            <Text><Text style={styles.label}>Pincode:</Text> {data.pincode}</Text>
+          </View>
+        </View>
+
+        {/* Footer */}
+        <Text style={styles.footer}>
+          Issued by Press Authority • Valid for official use only
         </Text>
-        <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 30 }}>
-          {recipient}
-        </Text>
-        <Text style={{ fontSize: 16, marginBottom: 10 }}>
-          has successfully completed the course
-        </Text>
-        <Text style={{ fontSize: 22, color: '#3498db', marginBottom: 30 }}>
-          "{course}"
-        </Text>
-        <Text style={{ fontSize: 14, color: '#7f8c8d' }}>
-          Awarded on {date}
-        </Text>
-      </View>
-      
-      {/* Official Stamp */}
-      <Image src="/official-stamp.png" style={styles.stamp} />
-      
-      {/* Signature Section */}
-      <View style={styles.signatureSection}>
-        <Image src={signature} style={styles.signature} />
-        <Text style={{ marginTop: 10, fontSize: 12 }}>
-          John Smith, Director
-        </Text>
-        <Text style={{ fontSize: 12, color: '#7f8c8d' }}>
-          Academy of Excellence
-        </Text>
+
       </View>
     </Page>
   </Document>
 );
 
-export default Certificate;
+export default PressCard;
